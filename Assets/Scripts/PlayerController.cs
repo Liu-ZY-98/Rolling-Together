@@ -51,12 +51,12 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(new Vector2(rb.velocity.x, jump));
         }
         
-        // Press "J" to SPLIT when the player has two colors
+        // Press "N" to SPLIT when the player has two colors
         if (Input.GetKeyDown(KeyCode.N) && color1 != ColorType.None && color2 != ColorType.None)
             Split();
         
-        // Press "K" to MERGE when there are two balls present
-        if (Input.GetKeyDown(KeyCode.M) && splitObject != null)
+        // Press "M" to MERGE when there are two balls present
+        if (Input.GetKeyDown(KeyCode.M) && (splitObject != null || parentObject != null))
             Merge();
         
         // Press "1" to switch camera location to Ball 1
@@ -100,10 +100,26 @@ public class PlayerController : MonoBehaviour
 
     void Merge()
     {
-        color2 = splitObject.GetComponent<PlayerController>().color1;
-        Destroy(splitObject);
-        splitObject = null;
-        UpdateColor();
+        if (splitObject != null)
+        {
+            color2 = splitObject.GetComponent<PlayerController>().color1;
+            Destroy(splitObject);
+            splitObject = null;
+            UpdateColor();
+        }
+        
+        // Merging when the current object is a split object
+        else
+        {
+            // This is a splitObject, so we should merge into the parentObject.
+            parentObject.transform.position = this.transform.position; // Move parentObject to splitObject's location
+            parentObject.color2 = parentObject.color1;
+            parentObject.color1 = this.color1; // Transfer color from splitObject to parentObject
+            parentObject.UpdateColor(); // Update the color of the parentObject
+            parentObject.splitObject = null; // Clear the splitObject reference in parentObject
+            cameraController.SwitchControl(parentObject.gameObject); // Switch control to parentObject
+            Destroy(this.gameObject); // Destroy the splitObject
+        }
     }
 
     void UpdateColor()
