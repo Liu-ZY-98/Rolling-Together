@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // Variables for moving
     public float speed;
     public float movement;
 
@@ -13,6 +14,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
     
+    // Variables for Splitting and Changing Colors
     public enum ColorType { None, Blue, Green, Purple, Red }
     public ColorType color1 = ColorType.None;
     public ColorType color2 = ColorType.None;
@@ -21,6 +23,10 @@ public class PlayerController : MonoBehaviour
     public CameraController cameraController;
     
     private GameObject splitObject;
+    
+    // Variables for Switching Playable Balls
+    public bool isControllable = true;
+    public PlayerController parentObject;
     
     // Start is called before the first frame update
     void Start()
@@ -32,6 +38,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // If not controllable, don't process the controls.
+        if (!isControllable) return;
+        
         // Horizontal movement
         movement = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(speed * movement, rb.velocity.y);
@@ -49,6 +58,14 @@ public class PlayerController : MonoBehaviour
         // Press "K" to MERGE when there are two balls present
         if (Input.GetKeyDown(KeyCode.M) && splitObject != null)
             Merge();
+        
+        // Press "1" to switch camera location to Ball 1
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            cameraController.SwitchControl(parentObject != null ? parentObject.gameObject : this.gameObject);
+    
+        // Press "2" to switch camera location to Ball 2
+        if (Input.GetKeyDown(KeyCode.Alpha2) && splitObject != null)
+            cameraController.SwitchControl(splitObject);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -69,11 +86,16 @@ public class PlayerController : MonoBehaviour
     void Split()
     {
         splitObject = Instantiate(playerPrefab, transform.position + new Vector3(2, 0, 0), Quaternion.identity);
-        splitObject.GetComponent<PlayerController>().color1 = color2;
-        splitObject.GetComponent<PlayerController>().color2 = ColorType.None;
+        PlayerController splitController = splitObject.GetComponent<PlayerController>();
+
+        splitController.parentObject = this;
+        
+        splitController.color1 = color2;
+        splitController.color2 = ColorType.None;
+        splitController.isControllable = false;
         color2 = ColorType.None;
         UpdateColor();
-        splitObject.GetComponent<PlayerController>().UpdateColor();
+        splitController.UpdateColor();
     }
 
     void Merge()
