@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        UpdateColor();
     }
 
     // Update is called once per frame
@@ -71,6 +72,8 @@ public class PlayerController : MonoBehaviour
         splitObject.GetComponent<PlayerController>().color1 = color2;
         splitObject.GetComponent<PlayerController>().color2 = ColorType.None;
         color2 = ColorType.None;
+        UpdateColor();
+        splitObject.GetComponent<PlayerController>().UpdateColor();
     }
 
     void Merge()
@@ -78,5 +81,42 @@ public class PlayerController : MonoBehaviour
         color2 = splitObject.GetComponent<PlayerController>().color1;
         Destroy(splitObject);
         splitObject = null;
+        UpdateColor();
+    }
+
+    void UpdateColor()
+    {
+        SpriteRenderer renderer = this.GetComponent<SpriteRenderer>();
+
+        if (color1 == ColorType.None && color2 == ColorType.None)
+        {
+            renderer.color = Color.black; // If the player has no color, it's black.
+        }
+        else if (color1 != ColorType.None && color2 != ColorType.None)
+        {
+            renderer.color = Color.white; // If the player has two colors, it's white.
+        }
+        else
+        {
+            ColorType presentColor = color1 != ColorType.None ? color1 : color2;
+            switch (presentColor)
+            {
+                case ColorType.Blue:
+                    renderer.color = Color.blue;
+                    break;
+                case ColorType.Green:
+                    renderer.color = Color.green;
+                    break;
+                case ColorType.Purple:
+                    renderer.color = new Color(0.5f, 0, 0.5f); // RGB for Purple
+                    break;
+                case ColorType.Red:
+                    renderer.color = Color.red;
+                    break;
+                default:
+                    renderer.color = Color.black;
+                    break;
+            }
+        }
     }
 }
