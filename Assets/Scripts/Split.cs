@@ -32,7 +32,10 @@ public class Split : MonoBehaviour
     }
 
     void Duplicate(GameObject player)
-    {
+    {   //the max spilt times is 3
+        /*if (playerInstances.Count >= 3){ 
+            return;
+        }else{ */
         Vector3 spawnPosition = player.transform.position + new Vector3(2, 0, 0);
         Debug.Log($"Spawning at {spawnPosition}");
         player.transform.localScale *= 0.8f;
@@ -40,6 +43,7 @@ public class Split : MonoBehaviour
         newPlayer.transform.localScale = player.transform.localScale;
 
         playerInstances.Add(newPlayer);
+        
     }
 
     void Merge()
