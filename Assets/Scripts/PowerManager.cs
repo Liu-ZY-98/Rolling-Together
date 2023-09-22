@@ -45,7 +45,8 @@ public class PowerManager : MonoBehaviour
         if (powers.Count >= 2) return false;
 
         powers.Add(power);
-        SetActivePower(powers.Count - 1);
+        powerIndex = powers.Count - 1;
+        SetActivePower(powerIndex);
 
         return true;
     }
@@ -62,6 +63,5 @@ public class PowerManager : MonoBehaviour
         PowerIndicator.text = $"{basePowerIndicatorText}{power.Name}";
         PowerLevelIndicator.text = $"{basePowerLevelIndicatorText}{power.Level}";
         playerRenderer.color = power.Color;
-        Debug.Log(power.Color);
     }
 }
