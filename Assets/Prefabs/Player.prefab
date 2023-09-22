@@ -150,3 +150,9 @@ MonoBehaviour:
   movement: 0
   jump: 300
   isJumping: 0
+  color1: 1
+  color2: 4
+  playerPrefab: {fileID: 526480592306288084}
+  cameraController: {fileID: 0}
+  isControllable: 1
+  parentObject: {fileID: 0}
