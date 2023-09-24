@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,6 +17,12 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI GameOverText;
 
     public TextMeshProUGUI GameTimer;
+
+    public GameObject PauseMenu;
+
+    public GameObject PauseButton;
+
+    public GameObject HelpText;
 
     public GameObject Player;
 
@@ -94,16 +101,50 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
-        Time.timeScale = 0f;
         GameOverText.gameObject.SetActive(true);
+        Pause();
     }
 
     public PlayerColor GetPlayerColor() => playerColor;
 
     public void SetPlayerColor(PlayerColor newPlayerColor)
     {
-        Debug.Log($"The new color is {newPlayerColor}");
         playerColor = newPlayerColor;
+    }
+
+    public void Pause()
+    {
+        Time.timeScale = 0f;
+        PauseMenu.SetActive(true);
+        PauseButton.SetActive(false);
+        HelpText.SetActive(false);
+    }
+
+    public void Resume()
+    {
+        Time.timeScale = 1f;
+        PauseMenu.SetActive(false);
+        PauseButton.SetActive(true);
+    }
+
+    public void Restart()
+    {
+        // Get current scene name
+        string scene = SceneManager.GetActiveScene().name;
+        // Load it
+        SceneManager.LoadScene(scene, LoadSceneMode.Single);
+        Time.timeScale = 1f;
+    }
+
+    public void Help()
+    {
+        HelpText.SetActive(true);
+    }
+
+    public void Win()
+    {
+        GameOverText.text = $"Congratulations! You have completed the level in {elapsedTime.ToString("F2")} seconds!";
+        GameOverText.gameObject.SetActive(true);
     }
 
     private void Split()
