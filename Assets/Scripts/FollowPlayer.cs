@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class FollowPlayer : MonoBehaviour
 {
@@ -14,6 +15,6 @@ public class FollowPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(player.transform.position.x, transform.position.y, -1);
+        transform.position = new Vector3(player.transform.position.x, Math.Max(0, player.transform.position.y), -1);
     }
 }
