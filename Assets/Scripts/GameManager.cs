@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI GameOverText;
 
+    public TextMeshProUGUI GameTimer;
+
     public GameObject Player;
 
     public GameObject RedPlayer;
@@ -22,6 +24,8 @@ public class GameManager : MonoBehaviour
     public GameObject BluePlayer;
 
     public float MergeDistance;
+
+    private float elapsedTime;
 
     private PlayerColor playerColor;
 
@@ -35,6 +39,10 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        // Timer
+        elapsedTime += Time.deltaTime;
+        GameTimer.text = $"{elapsedTime.ToString("F2")}s";
+
         // Split and merge.
         if (Input.GetKeyDown(KeyCode.Q))
         {
