@@ -66,8 +66,6 @@ public class GameManager : MonoBehaviour
             else
             {
                 Merge();
-                SetPlayerColor(PlayerColor.PURPLE);
-                SetActivePlayer(playerColor);
             }
         }
 
@@ -128,11 +126,20 @@ public class GameManager : MonoBehaviour
 
     private void Merge()
     {
+        Vector3 redPosition = RedPlayer.transform.position;
+        Vector3 bluePosition = BluePlayer.transform.position;
+
+        // We must not merge too distant balls.
+        if (Vector3.Distance(redPosition, bluePosition) > MergeDistance) return;
+
         RedPlayer.SetActive(false);
         BluePlayer.SetActive(false);
 
         Player.SetActive(true);
         Player.GetComponent<PlayerController>().enabled = true;
+
+        SetPlayerColor(PlayerColor.PURPLE);
+        SetActivePlayer(playerColor);
     }
 
     private void SetActivePlayer(PlayerColor activePlayerColor)
