@@ -132,6 +132,9 @@ public class GameManager : MonoBehaviour
         // We must not merge too distant balls.
         if (Vector3.Distance(redPosition, bluePosition) > MergeDistance) return;
 
+        Vector3 newPlayerPosition = (redPosition + bluePosition) / 2;
+        Player.transform.position = newPlayerPosition;
+
         RedPlayer.SetActive(false);
         BluePlayer.SetActive(false);
 
