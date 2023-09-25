@@ -38,10 +38,16 @@ public class GameManager : MonoBehaviour
 
     private FollowPlayer followPlayer;
 
+    private bool blueComplete;
+
+    private bool redComplete;
+
     void Awake()
     {
         playerColor = PlayerColor.BLACK;
         followPlayer = FindObjectsOfType<FollowPlayer>()[0];
+        blueComplete = false;
+        redComplete = false;
     }
 
     void Update()
@@ -58,7 +64,7 @@ public class GameManager : MonoBehaviour
             if (playerColor == PlayerColor.PURPLE)
             {
                 Split();
-                int randomInt = Random.Range(0, 10);
+                int randomInt = 10;
                 if (randomInt % 2 == 0)
                 {
                     SetPlayerColor(PlayerColor.RED);
@@ -96,6 +102,14 @@ public class GameManager : MonoBehaviour
             {
                 // Do nothing.
             }
+        }
+        
+        // Check if both balls complete the game
+        if (blueComplete && redComplete)
+        {
+            GameOverText.text = $"Congratulations! You have completed the level in {elapsedTime.ToString("F2")} seconds!";
+            GameOverText.gameObject.SetActive(true);
+            Pause();
         }
     }
 
@@ -208,5 +222,15 @@ public class GameManager : MonoBehaviour
             Player.GetComponent<PlayerController>().enabled = true;
             followPlayer.player = Player;
         }
+    }
+
+    public void BlueWin()
+    {
+        blueComplete = true;
+    }
+
+    public void RedWin()
+    {
+        redComplete = true;
     }
 }

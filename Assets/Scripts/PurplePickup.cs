@@ -5,7 +5,7 @@ using UnityEngine;
 public class PurplePickup : MonoBehaviour
 {
     public Color color;
-        private GameManager gameManager;
+    private GameManager gameManager;
 
     void Awake()
     {
