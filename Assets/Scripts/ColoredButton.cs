@@ -34,7 +34,7 @@ public class ColoredButton : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (!IsPressed && other.gameObject.CompareTag("Player") && gameManager.GetPlayerColor() == ActivatorColor)
+        if (!IsPressed && other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<PlayerController>().PlayerColor == ActivatorColor)
         {
             IsPressed = true;
             UnpressedButton.SetActive(false);
