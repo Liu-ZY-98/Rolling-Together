@@ -17,6 +17,7 @@ public class PurplePickup : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             other.gameObject.GetComponent<SpriteRenderer>().color = color;
+            other.gameObject.GetComponent<PlayerController>().PlayerColor = GameManager.PlayerColor.PURPLE;
             gameManager.SetPlayerColor(GameManager.PlayerColor.PURPLE);
             Destroy(gameObject);
         }

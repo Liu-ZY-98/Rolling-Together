@@ -15,7 +15,7 @@ public class ColoredPlatform : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player") && gameManager.GetPlayerColor() != AllowedColor)
+        if (other.gameObject.CompareTag("Player") && (other.gameObject.GetComponent<PlayerController>().PlayerColor != AllowedColor || gameManager.GetPlayerColor() != AllowedColor))
         {
             Destroy(other.gameObject);
             gameManager.EndGame();

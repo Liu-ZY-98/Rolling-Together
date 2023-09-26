@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public float jump;
     public bool isJumping;
 
+    public GameManager.PlayerColor PlayerColor;
+
     private Rigidbody2D rb;
     // Start is called before the first frame update
     void Start()
