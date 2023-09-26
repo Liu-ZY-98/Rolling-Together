@@ -7906,6 +7906,7 @@ MonoBehaviour:
   movement: 0
   jump: 330
   isJumping: 0
+  PlayerColor: 0
 --- !u!50 &807923551
 Rigidbody2D:
   serializedVersion: 4
@@ -9037,6 +9038,7 @@ MonoBehaviour:
   movement: 0
   jump: 300
   isJumping: 0
+  PlayerColor: 2
 --- !u!50 &874852172
 Rigidbody2D:
   serializedVersion: 4
@@ -11661,6 +11663,7 @@ MonoBehaviour:
   movement: 0
   jump: 300
   isJumping: 0
+  PlayerColor: 3
 --- !u!50 &1179742055
 Rigidbody2D:
   serializedVersion: 4
